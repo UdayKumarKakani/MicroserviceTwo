@@ -21,18 +21,13 @@ public class WeatherForecastController : ControllerBase
     [HttpGet(Name = "GetWeatherForecast")]
    public ActionResult<IList<WeatherForecast>> Get()
     {
-        IList<WeatherForecast> weatherForecast= new List<WeatherForecast>();
-        for (int i = 0; i < 10; i++)
+        return Enumerable.Range(1, 5).Select(index => new WeatherForecast
         {
-            WeatherForecast weather = new WeatherForecast();
-            weather.ProductName= "Product-" + i;
-            weather.ProductDescription= "Order Description-" + i;
-            weather.Date= DateTime.Now;
-            weather.Cost= i;
-            weather.Count= i+ 1;
-            weatherForecast.Add(weather);
-        }
-        return Ok(weatherForecast);
+            Date = DateTime.Now.AddDays(index),
+            TemperatureC = Random.Shared.Next(-20, 55),
+            Summary = "Data From Microservice Two"
+        })
+        .ToArray();
     }
 
 }
